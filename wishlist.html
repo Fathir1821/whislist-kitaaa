@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Sweet Wishlist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #fff0f6;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #ff6ec4 0%, #7873f5 100%);
+      color: white;
+      padding: 2rem 1rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      font-size: 1.1rem;
+      font-style: italic;
+      margin-top: 0;
+    }
+    .container {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(255, 110, 196, 0.2);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: 0.3s;
+    }
+    .card.completed {
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
+    .card input[type="checkbox"] {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      transform: scale(1.4);
+    }
+    .card h3 {
+      margin: 0.5rem 0 0.25rem;
+      font-size: 1.2rem;
+    }
+    .priority {
+      display: inline-block;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.8rem;
+      border-radius: 12px;
+      background: #ffe4f2;
+      color: #d63384;
+      margin-top: 0.5rem;
+      align-self: flex-start;
+    }
+    footer {
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Wishlist Kita 💖</h1>
+    <p>Hal-hal kecil dan besar yang pengen kita lakuin bareng. Semoga satu per satu bisa tercapai ya sayang 🥰</p>
+  </header>
+  <div class="container" id="wishlistContainer">
+    <!-- Semua card akan dibuat oleh JavaScript -->
+  </div>
+  <footer>
+    Dibuat dengan cinta &copy; 2025 untuk kita berdua 💕
+  </footer>
+
+  <script>
+    const wishlist = [
+      { text: "Makan pecel lele", priority: "🔥 Prioritas Tinggi" },
+      { text: "Foto box dan foto studio", priority: "🔥 Prioritas Tinggi" },
+      { text: "Karaokean", priority: "🔥 Prioritas Tinggi" },
+      { text: "Makan di tempat mewah", priority: "🔥 Prioritas Tinggi" },
+      { text: "Shopping", priority: "🔥 Prioritas Tinggi" },
+      { text: "Ke taman", priority: "🔥 Prioritas Tinggi" },
+      { text: "Kebun binatang", priority: "🔥 Prioritas Tinggi" },
+      { text: "Ke Bandung", priority: "🔥 Prioritas Tinggi" },
+      { text: "Pantai", priority: "🔥 Prioritas Tinggi" },
+      { text: "Naik gunung bareng", priority: "⭐ Prioritas Sedang" },
+      { text: "Main gitar elektrik bareng", priority: "⭐ Prioritas Sedang" },
+      { text: "Trans Studio", priority: "⭐ Prioritas Sedang" },
+      { text: "Berkemah", priority: "⭐ Prioritas Sedang" },
+      { text: "Nonton Persib", priority: "⭐ Prioritas Sedang" },
+      { text: "Ke Bali", priority: "⭐ Prioritas Sedang" },
+      { text: "Mancing", priority: "Prioritas Rendah" },
+    ];
+
+    const container = document.getElementById('wishlistContainer');
+    const savedStatus = JSON.parse(localStorage.getItem('wishlistStatus') || '{}');
+
+    wishlist.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      if (savedStatus[index]) card.classList.add('completed');
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = !!savedStatus[index];
+      checkbox.addEventListener('change', () => {
+        savedStatus[index] = checkbox.checked;
+        localStorage.setItem('wishlistStatus', JSON.stringify(savedStatus));
+        card.classList.toggle('completed', checkbox.checked);
+      });
+
+      const title = document.createElement('h3');
+      title.textContent = item.text;
+
+      const priority = document.createElement('span');
+      priority.className = 'priority';
+      priority.textContent = item.priority;
+
+      card.appendChild(checkbox);
+      card.appendChild(title);
+      card.appendChild(priority);
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>
